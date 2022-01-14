@@ -1,7 +1,8 @@
 ####        Source codes for analyses in the manuscript titled 
 ####  "Palatal morphology predicts the paleobiology of early salamanders"
 ####     authored by Jia Jia, Guangzhao Li, and Ke-Qin Gao
-###### contents
+
+###### Contents
 ###### 1 Preparation   
 ###### 2 Allometry analyses
 ###### 3 Phylogenetic signal
@@ -46,7 +47,7 @@ categorial.variables.34species<-read.csv(file="Categorial variable for 34 specie
 covariate.raw<-read.csv(file="covariates from the vomer-raw-35specieswithAviturus.csv",head=TRUE,sep=",") ### read raw covariates (5 numerical+2 categorial) of the vomer 
 
 covariate.for.boxplot<-read.csv(file="Covariate_Csize_regression.csv",head=TRUE,sep=",") 
-### read five numerical covariates of the vomer for linear regression with Log(CS) and boxplots, after missing data replaced by reconstructed data from "Rphylopars" R package 
+### For linear regression with Log(CS) and boxplots, read five numerical covariates of the vomer from the file "covariates from the vomer-raw-35specieswithAviturus.csv" after missing data in it was replaced by reconstructed data from "Rphylopars" R package 
 
 
 ##### 2 Allometry analyses
