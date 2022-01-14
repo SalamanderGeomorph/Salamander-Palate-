@@ -1,71 +1,71 @@
-species	Psleng	vomerleng	oiVTR	VTRwidth	teeth	VTRposition	VTRarrange
-Andrias_davidianus	0.812194791	0.279164406	2.639429313	0.834518423	12	anterior	parallel
-Andrias_davidianus	0.846440089	0.29106567	3.717404866	0.996062372	20	anterior	parallel
-Andrias_davidianus	0.854709826	0.276494887	3.130501535	0.984124754	20	anterior	parallel
-Andrias_japonicus	0.822633906	0.348743494	2.783034258	0.993136493	20	anterior	parallel
-Batrachuperus_karlschmidti	0.860491251	0.285679884	1.583333333	0.309943267	3	middle	parallel
-Batrachuperus_londongensis	0.866670347	0.276376083	1.5	0.309910414	3	middle	parallel
-Batrachuperus_londongensis	0.833087224	0.28972962	1.5	0.256171146	3	middle	parallel
-Batrachuperus_londongensis	0.826916924	0.27450144	1.5	0.227929374	4	middle	parallel
-Batrachuperus_londongensis	0.842882743	0.283963772	1.5	0.248138958	6	middle	parallel
-Batrachuperus_londongensis	0.847038367	0.268902849	1.5	0.19160178	4	middle	parallel
-Batrachuperus_londongensis	0.881236262	0.247452208	1.5	0.178163039	3	middle	parallel
-Batrachuperus_pinchonii	0.810993976	0.238919966	1.915384615	0.297503821	6	mid-posterior	transverse
-Batrachuperus_pinchonii	0.816547046	0.298682861	1.170940171	0.559633028	7	mid-posterior	transverse
-Batrachuperus_taibaiensis	0.847569608	0.28975932	3.556291391	0.329457364	6	mid-posterior	transverse
-Batrachuperus_taibaiensis	0.865079365	0.320634921	2.29558011	0.278082587	4	mid-posterior	transverse
-Batrachuperus_tibetanus	0.851793604	0.294540553	1.371888726	0.434224891	6	middle	transverse
-Batrachuperus_tibetanus	0.839157672	0.283417616	0.957446809	0.440406025	3	mid-posterior	transverse
-Batrachuperus_yenyuanensis	0.845610131	0.309761445	2.131460674	0.389814309	4	mid-posterior	transverse
-Batrachuperus_yenyuanensis	0.836538462	0.273402149	1.792915531	0.335723598	4	mid-posterior	transverse
-Beiyanerpeton_jianpingensis	0.894288225	0.215004394	1.5	1	15	anterior	parallel
-Chunerpeton_tianyiensis	0.903671887	0.229217956	1.807692308	0.896452703	28	anterior	parallel
-Cryptobranchus_alleganiensis	0.840604794	0.299164	2.557494052	1	21	anterior	parallel
-Cryptobranchus_alleganiensis	0.835558928	0.348836621	2.309222423	1	20	anterior	parallel
-Cryptobranchus_alleganiensis	0.814380749	0.303492542	2.113280247	1	21	anterior	parallel
-Hynobius_amjiensis	0.793160507	0.442084942	0.499363382	0.666666667	38	posterior	transverse
-Hynobius_amjiensis	0.788128674	0.446195297	0.375893437	0.554697897	29	posterior	transverse
-Hynobius_amjiensis	0.790388472	0.469137636	0.453070992	0.634557635	31	posterior	transverse
-Hynobius_nebulosus	0.827753257	0.495855313	0.293425606	0.735806884	28	posterior	transverse
-Hynobius_nebulosus	0.780343331	0.421656291	0.412631222	0.674893617	20	posterior	transverse
-Karaurus_sharovi	0.793375651	0.286946615	3.130035336	1	15	posterior	parallel
-Kokartus_honorarius	0.859912156	0.145173541	NA	NA	NA	anterior	parallel
-Liaoxitriton_zhongjiani	0.790179915	0.324147061	0.918181818	0.555264536	9	middle	transverse
-Linglongtriton_daxishanensis	0.706776038	0.328172838	0.434491419	0.709221355	14	posterior	transverse
-Liua_shihi	0.883692513	0.254165741	1.6975	0.374058127	7	middle	parallel
-Liua_shihi	0.846200287	0.233869142	1.546268657	0.427068724	7	middle	parallel
-Liua_shihi	0.810574876	0.270191625	1.612028302	0.502557109	7	middle	parallel
-Neimengtriton_daohugouensis	0.583127806	0.449060899	0.679331307	0.80874036	14	posterior	transverse
-Nuominerpeton_aquilonaris	0.791764271	0.331525089	1.279676259	0.537045455	16	mid-posterior	transverse
-Onychodactylus_japonicus	0.796977048	0.283635007	0.884155456	0.730830417	16	posterior	transverse
-Onychodactylus_japonicus	0.792359503	0.305935593	0.863596872	0.688928571	16	posterior	transverse
-Onychodactylus_japonicus	0.811735941	0.276381418	0.783406114	0.712079616	15	posterior	transverse
-Pachyhynobius_shangchengensis	0.823663522	0.354402516	0.263876251	0.393175074	6	posterior	oblique
-Pachyhynobius_shangchengensis	0.819323371	0.325550021	0.315789474	0.417021277	11	posterior	oblique
-Pachyhynobius_shangchengensis	0.789479871	0.322832795	0.265582656	0.288218327	12	posterior	oblique
-Pachyhynobius_shangchengensis	0.812421106	0.331330472	0.208140611	0.260850408	8	posterior	oblique
-Pangerpeton_sinensis	0.800880958	0.486785634	NA	NA	NA	posterior	transverse
-Paradactylodon_mustersi	0.8695482	0.28343771	2.141544118	0.458690246	8	mid-posterior	transverse
-Paradactylodon_persicus	0.762607495	0.348444633	0.734092085	0.565082267	15	mid-posterior	transverse
-Protohynobius_puxiongensis	0.821835804	0.295229951	0.551948052	0.609880131	11	posterior	transverse
-Protohynobius_puxiongensis	0.791495948	0.311936629	1.041626331	0.684770224	13	mid-posterior	transverse
-Protohynobius_puxiongensis	0.800625633	0.324500874	0.802946593	0.665396825	10	mid-posterior	transverse
-Pseudohynobius_flavomaculatus	0.728930193	0.348538593	0.576839827	0.698289685	16	posterior	transverse
-Pseudohynobius_flavomaculatus	0.737203448	0.328552903	0.574013158	0.606584362	15	posterior	transverse
-Pseudohynobius_flavomaculatus	0.755533506	0.323843688	0.888368462	0.612179487	12	mid-posterior	transverse
-Pseudohynobius_guizhouensis	0.732931323	0.332194305	0.535521803	0.65648855	15	posterior	transverse
-Pseudohynobius_jinfo	0.750186706	0.336445108	0.877241379	0.641721491	16	mid-posterior	transverse
-Pseudohynobius_jinfo	0.773065151	0.300743332	0.925200356	0.551565642	12	posterior	transverse
-Pseudohynobius_kuankuoshuiensis	0.789643568	0.306915734	0.557019537	0.6521524	16	posterior	transverse
-Pseudohynobius_kuankuoshuiensis	0.789785291	0.304158642	0.457005412	0.548945376	12	posterior	transverse
-Pseudohynobius_shuichengensis	0.750577063	0.344852602	0.532583216	0.643067179	16	mid-posterior	transverse
-Pseudohynobius_shuichengensis	0.756243822	0.333311367	0.880695444	0.627359538	14	mid-posterior	transverse
-Ranodon_sibiricus	0.795645454	0.279349506	1.339544513	0.524419729	8	mid-posterior	transverse
-Ranodon_sibiricus	0.79902314	0.28425014	0.769323671	0.364566059	5	mid-posterior	transverse
-Ranodon_sibiricus	0.823347042	0.290604239	1.435950413	0.476093361	9	mid-posterior	transverse
-Regalerpeton_weichangensis	0.912465849	0.160711416	1.657858136	1	17	middle	oblique
-Salamandrella_keyserlingii	0.728199078	0.357288426	0.491021036	0.645720894	27	posterior	transverse
-Salamandrella_keyserlingii	0.723078536	0.375589808	0.532004197	0.612793338	29	posterior	transverse
-Salamandrella_keyserlingii	0.734214391	0.372369065	0.484590164	0.541568812	17	posterior	transverse
-Liua_tsinpaensis	0.777064883	0.289806615	1.422818792	0.465262496	7	posterior	transverse
-Liua_tsinpaensis	0.802608543	0.307598039	1.44040404	0.620771513	12	posterior	transverse
+id	genus	species	taxa	Neoteny/Metamorphosis	ecology	catalogue	ps.ratio	vomer.ratio	Catalogue	Log Centroid Size	OI.ratio	VTR.W.ratio	Teeth NO.
+AndrdavidCLANCIB-20170521-01	Andrias	davidianus	Andrias_davidianus	Neoteny	Aquatic	CIB 20170521-01	0.812194791	0.279164406	CIB 20170521-01	3.020542329	2.639429313	0.834518423	12
+AndrdavidCLANSNUZ735	Andrias	davidianus	Andrias_davidianus	Neoteny	Aquatic	SNU Z735	0.846440089	0.29106567	SNU Z735	3.650359624	3.717404866	0.996062372	20
+AndrdavidCLANSNUZ736	Andrias	davidianus	Andrias_davidianus	Neoteny	Aquatic	SNU Z736	0.854709826	0.276494887	SNU Z736	3.685056455	3.130501535	0.984124754	20
+AndrjaponCLANFMNH60644	Andrias	japonicus	Andrias_japonicus	Neoteny	Aquatic	FMNH 60644	0.822633906	0.348743494	FMNH 60644	3.879430415	2.783034258	0.993136493	20
+BatrkalscHLAMFMNH49380	Batrachuperus	karlschmidti	Batrachuperus_karlschmidti	Metamorphosis	Aquatic	FMNH 49380	0.860491251	0.285679884	FMNH 49380	2.904259237	1.583333333	0.309943267	3
+BatrlondoHLAMCIB-14504	Batrachuperus	londongensis	Batrachuperus_londongensis	Metamorphosis	Aquatic	CIB 14504	0.866670347	0.276376083	CIB 14504	3.282400685	1.5	0.309910414	3
+BatrlondoHLAMCIB-14507	Batrachuperus	londongensis	Batrachuperus_londongensis	Metamorphosis	Aquatic	CIB 14507	0.833087224	0.28972962	CIB 14507	3.353872522	1.5	0.256171146	3
+BatrlondoHLAMCIB-14509	Batrachuperus	londongensis	Batrachuperus_londongensis	Metamorphosis	Aquatic	CIB 14509	0.826916924	0.27450144	CIB 14509	3.287306588	1.5	0.227929374	4
+BatrlondoHLANCIB-14380	Batrachuperus	londongensis	Batrachuperus_londongensis	Neoteny	Aquatic	CIB 14380	0.842882743	0.283963772	CIB 14380	3.418815397	1.5	0.248138958	6
+BatrlondoHLANCIB-14381	Batrachuperus	londongensis	Batrachuperus_londongensis	Neoteny	Aquatic	CIB 14381	0.847038367	0.268902849	CIB 14381	3.274749487	1.5	0.19160178	4
+BatrlondoHLANCIB-14482	Batrachuperus	londongensis	Batrachuperus_londongensis	Neoteny	Aquatic	CIB 14482	0.881236262	0.247452208	CIB 14482	3.08010463	1.5	0.178163039	3
+BatrpinchHLAMFMNH232834	Batrachuperus	pinchonii	Batrachuperus_pinchonii	Metamorphosis	Aquatic	FMNH 232834	0.810993976	0.238919966	FMNH 232834	2.577909491	1.915384615	0.297503821	6
+BatrpinchHLAMMVZ234909	Batrachuperus	pinchonii	Batrachuperus_pinchonii	Metamorphosis	Aquatic	MVZ 234909	0.816547046	0.298682861	MVZ 234909	2.898649787	1.170940171	0.559633028	7
+BatrtaibaHLAMCIB-72604	Batrachuperus	taibaiensis	Batrachuperus_taibaiensis	Metamorphosis	Aquatic	CIB 72604	0.847569608	0.28975932	CIB 72604	3.822668007	3.556291391	0.329457364	6
+BatrtaibaHLAMCIB-72607	Batrachuperus	taibaiensis	Batrachuperus_taibaiensis	Metamorphosis	Aquatic	CIB 72607	0.865079365	0.320634921	CIB 72607	3.109004572	2.29558011	0.278082587	4
+BatrtibetHLAMCIB-20030101	Batrachuperus	tibetanus	Batrachuperus_tibetanus	Metamorphosis	Aquatic	CIB 20030101	0.851793604	0.294540553	CIB 20030101	2.970828264	1.371888726	0.434224891	6
+BatrtibetHLAMFMNH5901	Batrachuperus	tibetanus	Batrachuperus_tibetanus	Metamorphosis	Aquatic	FMNH 5901	0.839157672	0.283417616	FMNH 5901	2.92716545	0.957446809	0.440406025	3
+BatryenyuHLAMCIB-72599	Batrachuperus	yenyuanensis	Batrachuperus_yenyuanensis	Metamorphosis	Aquatic	CIB 72599	0.845610131	0.309761445	CIB 72599	3.765929733	2.131460674	0.389814309	4
+BatryenyuHLAMFMNH49371	Batrachuperus	yenyuanensis	Batrachuperus_yenyuanensis	Metamorphosis	Aquatic	FMNH 49371	0.836538462	0.273402149	FMNH 49371	2.996012821	1.792915531	0.335723598	4
+BeiyjianpQFANPKUPV0608	Beiyanerpeton	jianpingensis	Beiyanerpeton_jianpingensis	Neoteny	Aquatic	PKUP V0608	0.894288225	0.215004394	PKUP V0608	4.255763532	1.5	1	15
+ChuntianyBFANholotype	Chunerpeton	tianyiensis	Chunerpeton_tianyiensis	Neoteny	Aquatic	CAGS-IG-02051	0.903671887	0.229217956	CAGS-IG-02051	3.449208745	1.807692308	0.896452703	28
+CrypallegCLANUF10881	Cryptobranchus	alleganiensis	Cryptobranchus_alleganiensis	Neoteny	Aquatic	UF 10881	0.840604794	0.299164	UF 10881	3.771962583	2.557494052	1	21
+CrypallegCLANUF88726	Cryptobranchus	alleganiensis	Cryptobranchus_alleganiensis	Neoteny	Aquatic	UF 88726	0.835558928	0.348836621	UF 88726	4.00443551	2.309222423	1	20
+CrypallegCLANFMNH33838	Cryptobranchus	alleganiensis	Cryptobranchus_alleganiensis	Neoteny	Aquatic	FMNH 33838	0.814380749	0.303492542	FMNH 33838	3.976645662	2.113280247	1	21
+HynoamjieHLTMZMNH868	Hynobius	amjiensis	Hynobius_amjiensis	Metamorphosis	Terrestrial	ZMNH AA868	0.793160507	0.442084942	ZMNH AA868	3.052000425	0.499363382	0.666666667	38
+HynoamjieHLTMZMNH869	Hynobius	amjiensis	Hynobius_amjiensis	Metamorphosis	Terrestrial	ZMNH AA869	0.788128674	0.446195297	ZMNH AA869	2.884856316	0.375893437	0.554697897	29
+HynoamjieHLTMZMNH870	Hynobius	amjiensis	Hynobius_amjiensis	Metamorphosis	Terrestrial	ZMNH AA870	0.790388472	0.469137636	ZMNH AA870	3.01767409	0.453070992	0.634557635	31
+HynonebulHLTMKU151824	Hynobius	nebulosus	Hynobius_nebulosus	Metamorphosis	Terrestrial	KU 151824	0.827753257	0.495855313	KU 151824	2.594361823	0.293425606	0.735806884	28
+HynonebulHLTMUF24315	Hynobius	nebulosus	Hynobius_nebulosus	Metamorphosis	Terrestrial	UF 24315	0.780343331	0.421656291	UF 24315	3.639583929	0.412631222	0.674893617	20
+KarashavoKFAN2585-1	Karaurus	sharovi	Karaurus_sharovi	Neoteny	Aquatic	2585-2	0.793375651	0.286946615	2585-2	4.13874865	3.130035336	1	15
+KokahonarKFANSkutschas2011	Kokartus	honorarius	Kokartus_honorarius	Neoteny	Aquatic	Skutschas2011	0.859912156	0.145173541	Skutschas2011	3.913349224	2.870112712	0.954782251	9.13834919
+LiaozhongHFQMPKUPV0300	Liaoxitriton	zhongjiani	Liaoxitriton_zhongjiani	Metamorphosis	Aquatic	PKUP V0300	0.790179915	0.324147061	PKUP V0300	3.141494154	0.918181818	0.555264536	9
+LingdaxisHFQMPKUP0277	Linglongtriton	daxishanensis	Linglongtriton_daxishanensis	Metamorphosis	Terrestrial	PKUP V0277	0.706776038	0.328172838	PKUP V0277	3.237615748	0.434491419	0.709221355	14
+LiuashihiHLAMCIB-17600	Liua	shihi	Liua_shihi	Metamorphosis	Aquatic	CIB 17600	0.883692513	0.254165741	CIB 17600	2.594989902	1.6975	0.374058127	7
+LiuashihiHLAMCIB-17602	Liua	shihi	Liua_shihi	Metamorphosis	Aquatic	CIB 17602	0.846200287	0.233869142	CIB 17602	2.977462494	1.546268657	0.427068724	7
+LiuashihiHLAMMVZ231146	Liua	shihi	Liua_shihi	Metamorphosis	Aquatic	MVZ 231146	0.810574876	0.270191625	MVZ 231146	3.030145111	1.612028302	0.502557109	7
+NeimdaohuHFSMPKUP0515	Neimengtriton	daohugouensis	Neimengtriton_daohugouensis	Metamorphosis	Semiaquatic	PKUP V0515	0.583127806	0.449060899	PKUP V0515	3.218376238	0.679331307	0.80874036	14
+NuomaquilHFQMPKUP0414	Nuominerpeton	aquilonaris	Nuominerpeton_aquilonaris	Metamorphosis	Terrestrial	PKUP V0414	0.791764271	0.331525089	PKUP V0414	3.155983388	1.279676259	0.537045455	16
+OnycjaponHLSMCAS26711	Onychodactylus	japonicus	Onychodactylus_japonicus	Metamorphosis	Terrestrial	CAS 26711	0.796977048	0.283635007	CAS 26711	2.795083047	0.884155456	0.730830417	16
+OnycjaponHLSMFMNH16095	Onychodactylus	japonicus	Onychodactylus_japonicus	Metamorphosis	Terrestrial	FMNH 16095	0.792359503	0.305935593	FMNH 16095	2.687081939	0.863596872	0.688928571	16
+OnycjaponHLSMFMNH285321	Onychodactylus	japonicus	Onychodactylus_japonicus	Metamorphosis	Terrestrial	FMNH 285321	0.811735941	0.276381418	FMNH 285321	2.750634737	0.783406114	0.712079616	15
+PachshangHLAMCAS194247	Pachyhynobius	shangchengensis	Pachyhynobius_shangchengensis	Metamorphosis	Aquatic	CAS 194247	0.823663522	0.354402516	CAS 194247	2.909982018	0.263876251	0.393175074	6
+PachshangHLAMCIB-72887	Pachyhynobius	shangchengensis	Pachyhynobius_shangchengensis	Metamorphosis	Aquatic	CIB 72887	0.819323371	0.325550021	CIB 72887	3.338358164	0.315789474	0.417021277	11
+PachshangHLAMCIB-72888	Pachyhynobius	shangchengensis	Pachyhynobius_shangchengensis	Metamorphosis	Aquatic	CIB 72888	0.789479871	0.322832795	CIB 72888	3.185247391	0.265582656	0.288218327	12
+PachshangHLAMCIB-72891	Pachyhynobius	shangchengensis	Pachyhynobius_shangchengensis	Metamorphosis	Aquatic	CIB 72891	0.812421106	0.331330472	CIB 72891	3.370438957	0.208140611	0.260850408	8
+PangsinenBFQMPKUP0218	Pangerpeton	sinensis	Pangerpeton_sinensis	Metamorphosis	Terrestrial	PKUP V0218	0.800880958	0.486785634	PKUP V0218	2.60810206	0.856471122	0.79124192	30.41417653
+ParamusteHLAMFMNH211936	Paradactylodon	mustersi	Paradactylodon_mustersi	Metamorphosis	Aquatic	FMNH 211936	0.8695482	0.28343771	FMNH 211936	3.278084921	2.141544118	0.458690246	8
+ParapersiHLAMMVZ241494	Paradactylodon	persicus	Paradactylodon_persicus	Metamorphosis	Terrestrial	MVZ 241494	0.762607495	0.348444633	MVZ 241494	3.314510836	0.734092085	0.565082267	15
+ProtpuxioHLTMCIB-97505	Protohynobius	puxiongensis	Protohynobius_puxiongensis	Metamorphosis	Terrestrial	CIB 97505	0.821835804	0.295229951	CIB 97505	2.723870912	0.551948052	0.609880131	11
+ProtpuxioHLTMCIB-97506	Protohynobius	puxiongensis	Protohynobius_puxiongensis	Metamorphosis	Terrestrial	CIB 97506	0.791495948	0.311936629	CIB 97506	2.723814325	1.041626331	0.684770224	13
+ProtpuxioHLTMCIB-98264	Protohynobius	puxiongensis	Protohynobius_puxiongensis	Metamorphosis	Terrestrial	CIB 98264	0.800625633	0.324500874	CIB 98264	2.751922133	0.802946593	0.665396825	10
+PseuflavoHLTMCIB-17342	Pseudohynobius	flavomaculatus	Pseudohynobius_flavomaculatus	Metamorphosis	Terrestrial	CIB 17342	0.728930193	0.348538593	CIB 17342	2.982445832	0.576839827	0.698289685	16
+PseuflavoHLTMCIB-17343	Pseudohynobius	flavomaculatus	Pseudohynobius_flavomaculatus	Metamorphosis	Terrestrial	CIB 17343	0.737203448	0.328552903	CIB 17343	2.949971178	0.574013158	0.606584362	15
+PseuflavoHLTMMVZ231152	Pseudohynobius	flavomaculatus	Pseudohynobius_flavomaculatus	Metamorphosis	Terrestrial	MVZ 231152	0.755533506	0.323843688	MVZ 231152	2.908067008	0.888368462	0.612179487	12
+PseuguizhHLTMHNUL0711005	Pseudohynobius	guizhouensis	Pseudohynobius_guizhouensis	Metamorphosis	Terrestrial	HNUL 0711005	0.732931323	0.332194305	HNUL 0711005	3.062156528	0.535521803	0.65648855	15
+PseujinfoHLTMCIB-85290	Pseudohynobius	jinfo	Pseudohynobius_jinfo	Metamorphosis	Terrestrial	CIB 85290	0.750186706	0.336445108	CIB 85290	2.965910588	0.877241379	0.641721491	16
+PseujinfoHLTMCIB-85291	Pseudohynobius	jinfo	Pseudohynobius_jinfo	Metamorphosis	Terrestrial	CIB 85291	0.773065151	0.300743332	CIB 85291	2.833764099	0.925200356	0.551565642	12
+PseukuankHLTMZMU-3	Pseudohynobius	kuankuoshuiensis	Pseudohynobius_kuankuoshuiensis	Metamorphosis	Terrestrial	ZMU 8208010	0.789643568	0.306915734	ZMU 8208010	3.049215323	0.557019537	0.6521524	16
+PseukuankHLTMZMU-7504023	Pseudohynobius	kuankuoshuiensis	Pseudohynobius_kuankuoshuiensis	Metamorphosis	Terrestrial	ZMU 7504023	0.789785291	0.304158642	ZMU 7504023	2.984829884	0.457005412	0.548945376	12
+PseushuicHLTMHNUL9460084	Pseudohynobius	shuichengensis	Pseudohynobius_shuichengensis	Metamorphosis	Terrestrial	HNUL 9460084	0.750577063	0.344852602	HNUL 9460084	3.092120075	0.532583216	0.643067179	16
+PseushuicHLTMHNUL9460085	Pseudohynobius	shuichengensis	Pseudohynobius_shuichengensis	Metamorphosis	Terrestrial	HNUL 9460085	0.756243822	0.333311367	HNUL 9460085	3.103585752	0.880695444	0.627359538	14
+RanosibirHLSMUMMZ127463	Ranodon	sibiricus	Ranodon_sibiricus	Metamorphosis	Semiaquatic	UMMZ 127463	0.795645454	0.279349506	UMMZ 127463	3.072470259	1.339544513	0.524419729	8
+RanosibirHLSMFMNH83050	Ranodon	sibiricus	Ranodon_sibiricus	Metamorphosis	Semiaquatic	FMNH 83050	0.79902314	0.28425014	FMNH 83050	2.877945491	0.769323671	0.364566059	5
+RanosibirHLSMFMNH83051	Ranodon	sibiricus	Ranodon_sibiricus	Metamorphosis	Semiaquatic	FMNH 83051	0.823347042	0.290604239	FMNH 83051	3.154572225	1.435950413	0.476093361	9
+RegaweichHFANIVPP23343-1	Regalerpeton	weichangensis	Regalerpeton_weichangensis	Neoteny	Aquatic	IVPP V23343-1	0.912465849	0.160711416	IVPP V23343-1	3.370478869	1.657858136	1	17
+SalakeyseHLTMFMNH83525	Salamandrella	keyserlingii	Salamandrella_keyserlingii	Metamorphosis	Terrestrial	FMNH 83525	0.728199078	0.357288426	FMNH 83525	2.593808625	0.491021036	0.645720894	27
+SalakeyseHLTMFMNH83526	Salamandrella	keyserlingii	Salamandrella_keyserlingii	Metamorphosis	Terrestrial	FMNH 83526	0.723078536	0.375589808	FMNH 83526	2.609491779	0.532004197	0.612793338	29
+SalakeyseHLTMMVZ222337	Salamandrella	keyserlingii	Salamandrella_keyserlingii	Metamorphosis	Terrestrial	MVZ 222337	0.734214391	0.372369065	MVZ 222337	2.44130642	0.484590164	0.541568812	17
+TsintsinpHLTMCIB-18349	Liua	tsinpaensis	Liua_tsinpaensis	Metamorphosis	Terrestrial	CIB 18349	0.777064883	0.289806615	CIB 18349	2.782961442	1.422818792	0.465262496	7
+TsintsinpHLTMCIB-20040321	Liua	tsinpaensis	Liua_tsinpaensis	Metamorphosis	Terrestrial	CIB 20040321	0.802608543	0.307598039	CIB 20040321	2.812057635	1.44040404	0.620771513	12
