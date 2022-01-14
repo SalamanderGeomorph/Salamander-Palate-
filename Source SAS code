@@ -1,0 +1,27 @@
+### code to generate contigency table for two categorical covariates of the vomer: Vomerine tooth row arrangement (VTRA) and Vomerine tooth row position (VTRP).
+### and to conduct the Cochran-Mantel-Haenszel statistics in SAS software
+
+libname geo "..."; ### set up the name and path for the library
+
+proc import out = geo.raw_com
+     datafile='././.Covariates from the vomer-combined.csv' ## path and the file
+dbms=csv 
+     replace;
+getnames=yes;
+guessingrows=70;
+run;
+
+Proc print data=geo.raw_com;
+run;
+
+ods graphics on;
+proc  freq data=geo.raw_com;
+tables Ecology*( VTRP VTRA )/
+   relrisk plots(only)=relriskplot(stats) CMH;
+run;
+
+ods graphics on;
+proc  freq data=geo.raw_com;
+tables Life*( VTRP VTRA )/
+   relrisk plots(only)=relriskplot(stats) CMH;
+run;
