@@ -4,11 +4,11 @@
 libname geo "..."; ### set up the name and path for the library
 
 proc import out = geo.raw_com
-     datafile='././.Covariates from the vomer-combined.csv' ## path and the file
+     datafile='././.Covariates of the vomer-raw-35 species with Aviturus.csv' ## path and the file
 dbms=csv 
      replace;
 getnames=yes;
-guessingrows=70;
+guessingrows=71;
 run;
 
 Proc print data=geo.raw_com;
