@@ -1,0 +1,658 @@
+####        Source codes for analyses in the manuscript titled 
+####  "Palatal morphology predicts the paleobiology of early salamanders"
+####     authored by Jia Jia, Guangzhao Li, and Ke-Qin Gao
+###### contents
+###### 1 Preparation   
+###### 2 Allometry analyses
+###### 3 Phylogenetic signal
+###### 4 Morphospace visualization
+###### 5 Wire frames and meanshape
+###### 6 Phylogenetic procrutes ANOVAs
+###### 7 Morpholoigcal disparity and pairwise comparison
+###### 8 Evolutionary rates
+###### 9 Non-shape Covariates from the vomer
+
+##### 1 Preparation packages, tree files, and data files 
+setwd(".....")### set the path for the working directory/folder in your computer to read and write files,
+              ### the same folder contains "Data S2 24-landmark dataset in 70 specimens 34 species.csv",
+              ### "Data S3 7-landmark dataset  in 71 specimens 35 species.csv", tree files and other files specified in this account
+
+install.packages("geomorph")
+install.packages("tidyverse")
+install.packages("ggplot2")
+install.packages("Rphylopars")
+
+library(geomorph)
+library(tidyverse)
+library(ggplot2)
+library(Rphylopars)
+
+### read trees, landmark datasets, and variables files
+filename <- "4Time-Calbriated_tree_RT60Ma_withoutAviturus.nex" ### read time-calibrated 34-species tree(without Aviturus)
+phy<-ape::read.nexus(filename)
+phy$node.label<-c(35:67)
+
+phy.35species<-read.tree(file="3Time-Calbriated_tree_RT60Ma_withAviturus - foranalysis.tre") ### read time-calibrated 35-species tree(with Aviturus)
+phy.35species$node.label<-c(36:69)
+
+landmark<-read.csv(file="Data S2 24-landmark dataset in 70 specimens 34 species.csv",
+                   head=TRUE,sep=",") ### read landmark coordinates and categorical variables for 70 specimens
+
+landmark.rightvomer<-read.csv(file="Data S3 7-landmark dataset  in 71 specimens 35 species.csv",head=TRUE,sep=",")
+
+categorial.variables.34species<-read.csv(file="Categorial variable for 34 species.csv",
+                                         head=TRUE,sep=",") ### read categorical variables for 34 species
+
+covariate.raw<-read.csv(file="covariates from the vomer-raw-35specieswithAviturus.csv",head=TRUE,sep=",") ### read raw covariates (5 numerical+2 categorial) of the vomer 
+
+covariate.for.boxplot<-read.csv(file="Covariate_Csize_regression.csv",head=TRUE,sep=",") 
+### read five numerical covariates of the vomer for linear regression with Log(CS) and boxplots, after missing data replaced by reconstructed data from "Rphylopars" R package 
+
+
+##### 2 Allometry analyses
+View(landmark)
+symm.landmark<-landmark[,c(59:106)] # extract symmetric components of the landmarks
+x<-as.matrix(symm.landmark)
+View(x)
+A<-arrayspecs(x,24,2)
+
+## standard allometric analysis between symmetric componenets and log(CS) across 70 specimens
+sal<-geomorph.data.frame(A,csize= landmark$Log.Centroid.Size)
+fit1<-procD.lm(A~csize, data = sal,iter = 9999,turbo = TRUE,RRPP = TRUE,
+               print.progress = FALSE)
+summary(fit1) #### results from standard allometry analysis across 70 specimens
+write.csv(fit1$residuals,file = "non_allomentric_residual_of_70specimens.csv")## export residuals from the standard allometry analysis
+
+## standard allometric analysis between symmetric componenets and log(CS) across 34 specimens
+## and Evolutionary allometric analysis
+landmark.tb.deleted <- landmark[ -which(landmark$Species=='taibaiensis'), ]
+landmark.no.taibai<-landmark.tb.deleted %>% group_by(Taxa) %>%summarize_if(is.numeric,mean)
+View(landmark.no.taibai)
+symm.landmark.34species<-landmark.no.taibai[,c(52:99)]
+symm.landmark.34species.matrix<-as.matrix(symm.landmark.34species)
+rownames(symm.landmark.34species.matrix)<-landmark.no.taibai$Taxa
+view(symm.landmark.34species.matrix)
+coords.34species<-arrayspecs(symm.landmark.34species.matrix,24,2)
+
+sal.34species<-geomorph.data.frame(coords.34species, 
+                                   csize=landmark.no.taibai$Log.Centroid.Size,
+                                   taxa=landmark.no.taibai$Taxa,phy = phy)
+fit2<-procD.lm(coords.34species~csize, data = sal.34species,iter = 9999,
+               turbo = TRUE,RRPP = TRUE,print.progress = FALSE)
+summary(fit2) #### results from standard allometry analysis across 34 species
+
+fit3<-procD.pgls(coords.34species~csize, phy = phy, data = sal.34species,
+                 iter = 9999, print.progress = FALSE)
+summary(fit3) #### results from evolutionary allometry analysis across 34 species
+
+
+##### 3 Phylogenetic signals
+
+### 3-1 phylogenetic signal for the symmetric shape components of the palate in 34 species
+c<-fit2$residuals
+residual.34species<-as.matrix(c)###extract residuals from the standard allometry analysis across 34 species
+view(residual.34species)
+coords.residual.34species<-arrayspecs(residual.34species,24,2)
+PS.shape.signal<-physignal(coords.residual.34species, phy, iter = 999, 
+                    seed = NULL, print.progress = FALSE)
+summary(PS.shape.signal) ###results of phylogenetic signal of the palate across 34 species
+
+### 3-2 phylogenetic signal analysis for the centroid size of the palate
+Log.CS<-landmark.no.taibai$Log.Centroid.Size
+Log.CS.matrix<-as.matrix(Log.CS)
+rownames(Log.CS.matrix)<-landmark.no.taibai$Taxa
+PS.Csize<-physignal(Log.CS.matrix, phy, iter = 999, 
+                    seed = NULL, print.progress = FALSE)
+summary(PS.Csize)  ###results of phylogenetic signal of the centroid size
+
+
+### 3-3 phylogenetic signal of the vomer across 35 species including Aviturus
+view(landmark.rightvomer)
+
+landmark.rightvomer.notaibai <- landmark.rightvomer[ -which(landmark.rightvomer$Species=='taibaiensis'), ]
+landmark.bytaxa.35species<-landmark.rightvomer.notaibai %>% group_by(Taxa) %>%summarize_if(is.numeric,mean)
+view(landmark.bytaxa.35species)
+
+delete.firstrow<-landmark.bytaxa.35species[-c(1),]
+view(delete.firstrow)
+landmark.35species<-as.matrix(delete.firstrow[,-c(1:17)])
+rownames(landmark.35species)<-delete.firstrow$Taxa
+view(landmark.35species)
+landmark.35species.coords<-arrayspecs(landmark.35species,7,2)
+
+## get residual from Csize-Shape regression##########
+dataframe.for.35species<-geomorph.data.frame(landmark.35species.coords,csize= delete.firstrow$Log.Centroid.Size)
+fit1.35species<-procD.lm(landmark.35species.coords~csize, data = dataframe.for.35species,iter = 999,turbo = TRUE,RRPP = FALSE,
+               print.progress = FALSE)
+summary(fit1.35species)
+
+residual_35_final<-as.matrix(fit1.35species$residuals)
+View(residual_35_final)
+
+signal.rightvomer<-physignal(residual_35_final, phy.35species, iter = 999, seed = NULL, print.progress = FALSE)
+summary(signal.rightvomer) ###results of the phylogenetic signal for the right vomer across 35 species including Aviturus
+
+
+##### 4 Morphospace visualization---related to Figures 2,4 and supplementary file 1(b)
+
+### 4-1 visualization of the Principle component analysis across 70 specimens
+
+d<-fit1$residuals
+residual.70specimens<-as.matrix(d)###extract residuals from the standard allometry analysis across 70 specimens
+view(residual.70specimens)
+coords.residual.70specimens<-arrayspecs(residual.70specimens,24,2)
+PCA.70specimens <- gm.prcomp(coords.residual.70specimens)
+PCA.70specimens$x ## Scores for 23 principle components for 70 specimens
+summary(PCA.70specimens) ## Principle component summaries of PCA of 70 specimens
+
+  ## export a jpg image showing the PCs 1 and 2 for 70 specimens grouped by ecological preference and taxonomy 
+jpeg("PCA-70specimens-PC1-2-ecology.jpg", width = 7.5, height = 7.5, units = "in", res = 900)
+plot(PCA.70specimens,axes= TRUE, frame.plot= TRUE,flip =c(1,2), col= c("red3","goldenrod2","royalblue3","purple2")
+     [as.factor(landmark$Ecology)],pch = c(8,18,15,17,17,19)[as.factor(landmark$Family)], cex = 1.4)
+legend(x=-0.135,y=-0.065, 
+       box.col = "white",
+       inset=.05, 
+       cex = 0.8, 
+       c("aquatic","semiaquatic","terrestrial","unknown"), 
+       horiz=FALSE,
+       lty = c(1,1),
+       lwd= c(2,2),
+       col=c("red3","goldenrod2","royalblue3","purple2"), 
+       bg="white",
+       text.font=2)
+
+legend(x=-0.135,y=-0.12, 
+       box.col = "white",
+       inset=.05, 
+       cex = 0.8, 
+       c("Cryptobranchidae","Cryptobranchoidea","Hynobiidae","Non-Cryptobranchoidea","Panhynobia"), 
+       horiz=FALSE,
+       pch=c(8,18,15,17,19),
+       bg="white",
+       text.font = 2)
+dev.off()
+
+## export a jpg image showing the PCs 1 and 2 for 70 specimens grouped by life history strategy and ecological preference 
+jpeg("PCA-70specimens-PC1-2-neoteny.jpg", width = 7.5, height = 7.5, units = "in", res = 900)
+plot(PCA.70specimens,flip =c(1,2),col= c("red3","goldenrod2","royalblue3","purple2")[as.factor(landmark$Ecology)],
+     pch = c(15,17)[as.factor(landmark$Neoteny.Metamorphosis)], cex = 1.4)
+
+legend(x=-0.135,y=-0.065, 
+       box.col = "white",
+       inset=.05, 
+       cex = 0.8, 
+       c("aquatic","semiaquatic","terrestrial","unknown"), 
+       horiz=FALSE,
+       lty = c(1,1),
+       lwd= c(2,2),
+       col=c("red3","goldenrod2","royalblue3","purple2"), 
+       bg="white",
+       text.font=2)
+
+legend(x=-0.135,y=-0.12, 
+       box.col = "white",
+       inset=.05, 
+       cex = 0.8, 
+       c("   neoteny","  metamorphosis"), 
+       horiz=FALSE,
+       pch=c(17,15),
+       bg="white",
+       text.font=2)
+dev.off()
+
+## Add labels on the plot
+PCA_70<-PCA.70specimens$x
+cate<-landmark[,c(1:8)]
+PCA_702<-cbind(cate,PCA_70)
+View(PCA_702)
+jpeg("PCA-70specimens-PC1-2-ggplot.jpg", width = 17.5, height = 17.5, units = "in", res = 900)
+ggplot(PCA_702, aes(x=Comp1, y=Comp2, shape=Ecology, color=Ecology, label=Catalogue)) +
+  geom_point()+geom_text()
+dev.off()
+
+### 4-2 Morphospace visualization--visualization of the phylomorphospace analysis (PA) across 34 species
+
+species_34_PA<- gm.prcomp(coords.residual.34species, phy = phy)
+species_34_PA$x ## Scores for 22 principle components for 34 species
+summary(species_34_PA)## principle components summaries of the phylomorphospace analysis
+
+## export a jpg image showing the PCs 1 and 2 from PA analysis for 34 species grouped by ecological preference and taxonomy
+jpeg("PA-34species-PC1-2.jpg", width = 7.5, height = 7.5, units = "in", res = 900)
+PA<-plot(species_34_PA,axes= TRUE, frame.plot= TRUE,
+         col= c("red3","goldenrod2","royalblue3","purple2")[as.factor(categorial.variables.34species$Ecology)],
+         pch = c(8,18,15,17,17,19)[as.factor(categorial.variables.34species$Family)], cex = 1.4, phylo = TRUE,
+         phylo.par = list(tip.labels = FALSE, node.labels = FALSE, anc.states = TRUE, node.pch = 21, 
+                          node.bg = "white", node.cex = 0.5, edge.color = "black", edge.width = 1.5, 
+                          tip.txt.cex= 0.8, tip.txt.col = "black", tip.txt.adj = c(-0.1, -0.1), node.txt.cex = 1,
+                          node.txt.col = "grey", node.txt.adj = c(-0.1, -0.1)))
+legend(x=-0.1,y=-0.1, 
+       box.col = "white",
+       inset=.05, 
+       cex = 0.8, 
+       c("aquatic","semiaquatic","terrestrial","unknown"), 
+       horiz=FALSE,
+       lty = c(1,1),
+       lwd= c(2,2),
+       col=c("red3","goldenrod2","royalblue3","purple2"), 
+       bg="white",
+       text.font=2)
+
+legend(x=-0.02,y=-0.1, 
+       box.col = "white",
+       inset=.05, 
+       cex = 0.8, 
+       c("Cryptobranchidae","Cryptobranchoidea","Hynobiidae","Non-Cryptobranchoidea","Panhynobia"), 
+       horiz=FALSE,
+       pch=c(8,18,15,17,19),
+       bg="white")
+dev.off()
+
+### 4-3 Phylogenetic PCA (Phylo-PCA) - based on GLS-centering and projection
+phylo.PCA <- gm.prcomp(coords.residual.34species, phy = phy, GLS = TRUE)
+phylo.PCA$x ## Scores for 22 principle components for 34 species
+summary(phylo.PCA) ## principle components summaries of the Phylo-PCA
+
+## export a jpg image showing the PCs 1 and 2 from Phylo-PCA analysis for 34 species grouped by ecological preference and taxonomy
+jpeg("Phylo_PCA-34species-PC1-2_ecology.jpg", width = 7.5, height = 7.5, units = "in", res = 900)
+Phylo_PCA_34_species<-plot(phylo.PCA,axes= TRUE, frame.plot= TRUE,
+         col= c("red3","goldenrod2","royalblue3","purple2")[as.factor(categorial.variables.34species$Ecology)],
+         pch = c(8,18,15,17,17,19)[as.factor(categorial.variables.34species$Family)], 
+         cex = 1.4, phylo = TRUE,phylo.par = list(tip.labels = FALSE, 
+         node.labels = FALSE, anc.states = TRUE,node.pch =21, node.bg = "white", 
+         node.cex = 0.5, edge.color = "black", edge.width = 1.5, tip.txt.cex = 0.8, 
+         tip.txt.col = "black", tip.txt.adj = c(-0.1, -0.1), node.txt.cex = 1,
+         node.txt.col = "grey", node.txt.adj = c(-0.1, -0.1)))
+legend(x=-0.25,y=-0.03, 
+       box.col = "white",
+       inset=.05, 
+       cex = 0.8, 
+       c("aquatic","semiaquatic","terrestrial","unknown"), 
+       horiz=FALSE,
+       lty = c(1,1),
+       lwd= c(2,2),
+       col=c("red3","goldenrod2","royalblue3","purple2"), 
+       bg="white",
+       text.font=2)
+
+legend(x=-0.16,y=-0.026, 
+       box.col = "white",
+       inset=.05, 
+       cex = 0.8, 
+       c("Cryptobranchidae","Cryptobranchoidea","Hynobiidae","Non-Cryptobranchoidea","Panhynobia"), 
+       horiz=FALSE,
+       pch=c(8,18,15,17,19),
+       bg="white")
+dev.off()
+
+
+### 4-4 phylogenetically aligned component analysis (PaCA) of 34 species 
+PaCA.ols <- gm.prcomp(coords.residual.34species, phy = phy,align.to.phy = TRUE)
+PaCA.ols$x ## Scores for 22 principle components for 34 species
+summary(PaCA.ols) ## principle components summaries of the PaCA
+
+## export a jpg image showing the PCs 1 and 2 from PaCA analysis for 34 species grouped by ecological preference and taxonomy
+jpeg("PaCA-34species-PC1-2_ecology.jpg", width = 7.5, height = 7.5, units = "in", res = 900)
+PA<-plot(PaCA.ols,axes= TRUE, frame.plot= TRUE,
+         col= c("red3","goldenrod2","royalblue3","purple2")[as.factor(categorial.variables.34species$Ecology)],
+         pch = c(8,18,15,17,17,19)[as.factor(categorial.variables.34species$Family)], cex = 1.4, phylo = TRUE,
+         phylo.par = list(tip.labels = FALSE, node.labels = FALSE, anc.states = TRUE, node.pch =21, 
+                          node.bg = "white", node.cex = 0.5, edge.color = "black", 
+                          edge.width = 1.5, tip.txt.cex = 0.8, tip.txt.col = "black", 
+                          tip.txt.adj = c(-0.1, -0.1), node.txt.cex = 1,
+                          node.txt.col = "grey", node.txt.adj = c(-0.1, -0.1)))
+legend(x=0.1,y=-0.03, 
+       box.col = "white",
+       inset=.05, 
+       cex = 0.8, 
+       c("aquatic","semiaquatic","terrestrial","unknown"), 
+       horiz=FALSE,
+       lty = c(1,1),
+       lwd= c(2,2),
+       col=c("red3","goldenrod2","royalblue3","purple2"), 
+       bg="white",
+       text.font=2)
+legend(x=0.11,y=-0.08, 
+       box.col = "white",
+       inset=.05, 
+       cex = 0.8, 
+       c("Cryptobranchidae","Cryptobranchoidea","Hynobiidae","Non-Cryptobranchoidea","Panhynobia"), 
+       horiz=FALSE,
+       pch=c(8,18,15,17,19),
+       bg="white",
+       text.font = 2)
+dev.off()
+
+
+##### 5 Create wire frames and meanshapes---related to Figures 2 and 3
+    ### define links to connect the landmark points
+links<-read.csv(file="links.csv",head=FALSE,sep=",")
+links_new<-as.matrix(links)
+view(links_new)
+
+
+### 5-1 create wire frames for extreme values of PCs 1 and 2 in PCA of 70 specimens
+specimens.70<-as.matrix(landmark[,c(59:106)]) 
+rownames(specimens.70)<-landmark$Catalogue
+
+    ### meanshape of the palate for the 70 specimens
+view(specimens.70)
+coords.symmetric.70specimens<-arrayspecs(specimens.70,24,2)
+meanshape.70specimens<-mshape(coords.symmetric.70specimens)
+
+##PCA-70specimens----PC1 lowest negtative value-Hynobius nebulosus KU 151824 
+KU151824<-specimens.70[28,]
+dim(KU151824)<-c(2,24)
+Hynobius_KU151824<-t(KU151824)
+view(Hynobius_KU151824)
+plotRefToTarget(meanshape.70specimens, Hynobius_KU151824,method = "points", links = links_new)
+
+##PCA-70specimens----PC1 highest positive value--Chunerpeton tianyiensis CAGS-IG-02051
+CAGS.IG.02051<-specimens.70[21,]
+dim(CAGS.IG.02051)<-c(2,24)
+Chunerpeton<-t(CAGS.IG.02051)
+view(Chunerpeton)
+plotRefToTarget(meanshape.70specimens, Chunerpeton,method = "points", links = links_new)
+
+##PCA-70specimens----PC2 lowest negative value--Karaurus sharovi 2585-2
+Specimen.2585<-specimens.70[30,]
+dim(Specimen.2585)<-c(2,24)
+Karaurus.sharovi.2585<-t(Specimen.2585)
+view(Karaurus.sharovi.2585)
+plotRefToTarget(meanshape.70specimens, Karaurus.sharovi.2585,method = "points", links = links_new)
+
+##PCA-70specimens----PC2 highest positive value--Chunerpeton tianyiensis CAGS-IG-02051
+CIB17600<-specimens.70[34,]
+dim(CIB17600)<-c(2,24)
+Liuashihi.CIB17600<-t(CIB17600)
+view(Liuashihi.CIB17600)
+plotRefToTarget(meanshape.70specimens, Liuashihi.CIB17600,method = "points", links = links_new)
+
+### 5-2 create wire frames for extreme values in PA of 34 species and chosen internal nodes
+view(symm.landmark.34species.matrix)
+f<-anc.recon(symm.landmark.34species.matrix,phy)
+ancestorcoords<-as.matrix(f)
+view(ancestorcoords)
+allcoords<-rbind(symm.landmark.34species.matrix, ancestorcoords)
+view(allcoords)
+allcoords.array<-arrayspecs(allcoords,24,2)
+allmeanshape<-mshape(allcoords.array)
+
+##PA-34species----PC1 lowest negative value--Andrias japonicus
+Liuash<-allcoords[17,]
+dim(Liuash)<-c(2,24)
+Liuashihi<-t(Liuash)
+view(Liuashihi)
+plotRefToTarget(allmeanshape, Liuashihi,method = "points", links = links_new)
+
+##PA-34species----PC1 highest positive value--Chunerpeton tianyiensis
+Chuner<-allcoords[9,]
+dim(Chuner)<-c(2,24)
+Chunerpeton.tianyiensis<-t(Chuner)
+view(Chunerpeton.tianyiensis)
+plotRefToTarget(allmeanshape, Chunerpeton.tianyiensis,method = "points", links = links_new)
+
+##PA-34species----PC2 lowest negative value--Karaurus sharovi
+Karau<-allcoords[13,]
+dim(Karau)<-c(2,24)
+Karaurus.sharovi<-t(Karau)
+view(Karaurus.sharovi)
+plotRefToTarget(allmeanshape, Karaurus.sharovi,method = "points", links = links_new)
+
+##PA-34species----PC2 highest positive value--Liua shihi
+Liuas<-allcoords[17,]
+dim(Liuas)<-c(2,24)
+Liua.shihi<-t(Liuas)
+view(Liua.shihi)
+plotRefToTarget(allmeanshape, Liua.shihi,method = "points", links = links_new)
+
+##PA-34species----Node 35 common ancestor for Caudata
+Node.35.Caudata<-allcoords[35,]
+dim(Node.35.Caudata)<-c(2,24)
+Ancestor.Caudata<-t(Node.35.Caudata)
+view(Ancestor.Caudata)
+plotRefToTarget(allmeanshape, Ancestor.Caudata,method = "points", links = links_new)
+
+### so on so forth for other internal nodes
+
+
+##### 6 Phylogenetic Procrutes ANOVAs
+
+sal.ANOVAs<-geomorph.data.frame(residual.34species, Genus=categorial.variables.34species$Genus, 
+                                Category=categorial.variables.34species$Category,
+                                Family=categorial.variables.34species$Family,
+                                Ecology=categorial.variables.34species$Ecology,
+                         lifehistory=categorial.variables.34species$Neoteny.Metamorphosis,phy = phy)
+ANOVA.fit1<-procD.pgls(residual.34species~Category+Ecology+lifehistory, 
+                 phy = phy, iter = 999,data = sal.ANOVAs,
+                 print.progress = FALSE)
+summary(ANOVA.fit1)
+ANOVA.fit2<-procD.pgls(residual.34species~Genus, 
+                 phy = phy, iter = 999,data = sal.ANOVAs,
+                 print.progress = FALSE)
+summary(ANOVA.fit2)
+ANOVA.fit3<-procD.pgls(residual.34species~Family, 
+                 phy = phy, iter = 999,data = sal.ANOVAs,
+                 print.progress = FALSE)
+summary(ANOVA.fit3)
+
+
+###### 7 Morpholoigcal disparity and pairwise comparison--related to Figure 3, Supplementary file 1(c)-(h)
+m<-ANOVA.fit1$pgls.residuals
+view(m)
+
+sal.morpho.disparity<-geomorph.data.frame(ANOVA.fit1$pgls.residuals, 
+                         Species= categorial.variables.34species$Taxa, 
+                         Ecology=categorial.variables.34species$Ecology, 
+                         lifehistory=categorial.variables.34species$Neoteny.Metamorphosis, 
+                         Category=categorial.variables.34species$Category, 
+                         Genus=categorial.variables.34species$Genus, 
+                         Family=categorial.variables.34species$Family,
+                         phy = phy)
+### 7-1 whole palate disparity comparison#########
+v.palate<-morphol.disparity(m~Ecology+lifehistory+Category, groups = Ecology, partial = FALSE, 
+                            data=sal.morpho.disparity)
+summary(v.palate)
+
+### 7-2 vomer disparity comparison
+v.vomer<-morphol.disparity(m[,c(1:14)]~Ecology+lifehistory+Category, groups = Ecology, 
+                           partial = FALSE, data=sal.morpho.disparity)
+summary(v.vomer)
+
+### 7-3 parasphenoid disparity comparison
+v.parasphenoid<-morphol.disparity(m[,c(29:48)]~Ecology+lifehistory+Category, 
+                                  groups = Ecology, partial = FALSE, data=sal.morpho.disparity)
+summary(v.parasphenoid)
+
+### 7-4 single landmark point #1, for example,  disparity comparison#########
+v.singlelandmark<-morphol.disparity(m[,c(39:40)]~Ecology+lifehistory+Category, groups = Ecology, 
+                     partial = FALSE, data=sal.morpho.disparity)
+summary(v.singlelandmark)
+
+
+###### 8 Evolutionary rates  ---See Supplementary file 1(i)
+view(residual.34species)
+view(coords.residual.34species)
+
+### 8-1 Evolutionary rates of the whole palate for species grouped by ecological preferences
+gp.end<-factor(c(0, 0, 0, 0, 2, 0, 0, 0, 2, 1, 2, 0, 1, 0, 2, 0, 2, 2, 2, 2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 2, 2, 2, 0)) #aquatic(0)& semi-aquatic(1), terrestrial(2)
+names(gp.end)<-phy$tip.label
+ER<-compare.evol.rates(A=coords.residual.34species, phy=phy,
+                       method="simulation",gp=gp.end,iter=999)
+summary(ER)
+plot(ER)
+
+### 8-2 vomer evolutionary rates for ecological types
+rightvomer<-residual.34species[,1:14]
+view(rightvomer)
+coords.rightvomer<-arrayspecs(rightvomer,7,2)
+gp.end.right.vomer<-factor(c(0, 0, 0, 0, 2, 0, 0, 0, 2, 1, 2, 0, 1, 0, 2, 0, 2, 2, 2, 2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 2, 2, 2, 0)) 
+                      #aquatic(0)& semi-aquatic(1), terrestrial(2)
+names(gp.end.right.vomer)<-phy$tip.label
+view(gp.end.right.vomer)
+ER.right.vomer<-compare.evol.rates(A=coords.rightvomer, phy=phy,
+                       method="simulation",gp=gp.end.right.vomer,iter=999)
+summary(ER.right.vomer)
+
+### 8-3 parasphenoid evolutionary rates for ecological types
+parasphenoid<-residual.34species[,29:48]
+view(parasphenoid)
+coords.parasphenoid<-arrayspecs(parasphenoid,10,2)
+gp.end.parasphenoid<-factor(c(0, 0, 0, 0, 2, 0, 0, 0, 2, 1, 2, 0, 1, 0, 2, 0, 2, 2, 2, 2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 2, 2, 2, 0)) 
+                      #aquatic(0)& semi-aquatic(1), terrestrial(2)
+names(gp.end.parasphenoid)<-phy$tip.label
+view(gp.end.parasphenoid)
+ER.parasphenoid<-compare.evol.rates(A=coords.parasphenoid, phy=phy,
+                       method="simulation",gp=gp.end.parasphenoid,iter=999)
+summary(ER.parasphenoid)
+
+### 8-4 Centroid size evolutionary rates for ecological types
+view(Log.CS.matrix)
+
+gp.end.Csize<-factor(c(0, 0, 0, 0, 2, 0, 0, 0, 2, 1, 2, 0, 1, 0, 2, 0, 2, 2, 2, 2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 2, 2, 2, 0)) 
+                      #aquatic(0)& semi-aquatic(1), terrestrial(2)
+names(gp.end.Csize)<-phy$tip.label
+ER.Csize<-compare.evol.rates(A=Log.CS.matrix, phy=phy,
+                       method="simulation",gp=gp.end.Csize,iter=999)
+summary(ER.Csize)
+
+### 8-5 evolutionary rates of the palate, vomer, parasphenoid and Csize for species grouped by life history strategy
+gp.end.lifehistory<-factor(c( 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0)) 
+                      #neoteny(0)& metamorphosis(1)
+names(gp.end.lifehistory)<-phy$tip.label
+ER.palate.lifehistory<-compare.evol.rates(A=coords.residual.34species, phy=phy,
+                               method="simulation",gp=gp.end.lifehistory,iter=999)
+summary(ER.palate.lifehistory)
+ER.vomer.lifehistory<-compare.evol.rates(A=coords.rightvomer, phy=phy,
+                                          method="simulation",gp=gp.end.lifehistory,iter=999)
+summary(ER.vomer.lifehistory)
+ER.parasphenoid.lifehistory<-compare.evol.rates(A=coords.parasphenoid, phy=phy,
+                                          method="simulation",gp=gp.end.lifehistory,iter=999)
+summary(ER.parasphenoid.lifehistory)
+ER.Csize.lifehistory<-compare.evol.rates(A=Log.CS.matrix, phy=phy,
+                                          method="simulation",gp=gp.end.lifehistory,iter=999)
+summary(ER.Csize.lifehistory)
+
+### 8-6 evolutionary rates the palate, vomer, parasphenoid and Csize for species grouped by taxonomic affiliations
+gp.end.taxonomy<-factor(c(4, 4, 4, 3, 3, 2, 2, 2, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1)) 
+                        #Hynobiidae 0, stem hynobiids 1, Pancryptobrancha 2, basal Cryptobranchoidea 3, non-Cryptobranchoidea 4)
+names(gp.end.taxonomy)<-phy$tip.label
+view(gp.end.taxonomy)
+ER.palate.taxonomy<-compare.evol.rates(A=coords.residual.34species, phy=phy,
+                                          method="simulation",gp=gp.end.taxonomy,iter=999)
+summary(ER.palate.taxonomy)
+ER.vomer.taxonomy<-compare.evol.rates(A=coords.rightvomer, phy=phy,
+                                         method="simulation",gp=gp.end.taxonomy,iter=999)
+summary(ER.vomer.taxonomy)
+ER.parasphenoid.taxonomy<-compare.evol.rates(A=coords.parasphenoid, phy=phy,
+                                                method="simulation",gp=gp.end.taxonomy,iter=999)
+summary(ER.parasphenoid.taxonomy)
+ER.Csize.taxonomy<-compare.evol.rates(A=Log.CS.matrix, phy=phy,
+                                         method="simulation",gp=gp.end.taxonomy,iter=999)
+summary(ER.Csize.taxonomy)
+
+### 8-7 evolutionary rates the palate, vomer, parasphenoid and Csize for each species---see Figure 3
+gp.end.singlespecies<-factor(c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34)) 
+                        #each species is an independent group
+names(gp.end.singlespecies)<-phy$tip.label
+view(gp.end.singlespecies)
+ER.palate.singlespecies<-compare.evol.rates(A=coords.residual.34species, phy=phy,
+                                       method="simulation",gp=gp.end.singlespecies,iter=999)
+summary(ER.palate.singlespecies)
+ER.vomer.singlespecies<-compare.evol.rates(A=coords.rightvomer, phy=phy,
+                                      method="simulation",gp=gp.end.singlespecies,iter=999)
+summary(ER.vomer.singlespecies)
+ER.parasphenoid.singlespecies<-compare.evol.rates(A=coords.parasphenoid, phy=phy,
+                                             method="simulation",gp=gp.end.singlespecies,iter=999)
+summary(ER.parasphenoid.singlespecies)
+ER.Csize.singlespecies<-compare.evol.rates(A=Log.CS.matrix, phy=phy,
+                                      method="simulation",gp=gp.end.singlespecies,iter=999)
+summary(ER.Csize.singlespecies)
+
+
+### 8-8 evolutionary rates comparison between palate, vomer and parasphenoid for 34 species--related to Supplementary file 1(i)
+
+land.gp<-c("A","A","A","A","A","A","A","A","A","A","A","A","A","A",
+           "B","B","B","B","B","B","B","B","B","B") ###A vomer, B parasphenoid
+
+EMR<-compare.multi.evol.rates(A=coords.residual.34species,gp=land.gp,
+                              Subset=TRUE, phy= phy,iter=999)
+summary(EMR)
+
+### 8-9 evolutionary rates for single landmarks----related to supplementary file 1(h)
+land.gp.singlelandmark<-c("A","B","C","D","E","F","G","H","I","J","K","L","M","N",
+           "O","P","Q","R","S","T","U","V","W","X")
+
+EMR.single.landmark<-compare.multi.evol.rates(A=coords.residual.34species,gp=land.gp.singlelandmark,
+                              Subset=TRUE, phy= phy,iter=999)
+summary(EMR.single.landmark)
+
+
+###### 9 Non-shape Covariates from the vomer
+
+### 9-1 Ancestral states reconstructions for five numerical variables for the time-calibrated tree of 35 species including Aviturus
+plot(phy.35species)
+
+covariate.raw<-read.csv(file="covariates from the vomer-raw-35specieswithAviturus.csv",head=TRUE,sep=",")
+view(covariate.raw)
+cova<-covariate.raw[-c(15,16),-c(7,8)] ## delete Batrachuperus taibaiensis and two columns for the two categorial variables
+view(cova)
+
+PE<-phylopars(trait_data = cova,tree=phy.35species,model = "BM")
+summary(PE)
+write.table(PE$anc_recon,file = "Supplementary file 1k.csv",sep=",")  
+#########calculate all five covariates to obtain species mean value for 34 species and 33 internal nodes
+
+### 9-2 Ancestral states reconstructions for two categorical variables for the time-calibrated tree of 35 species including Aviturus---related to Figure 3
+
+categorical.vomer<-read.csv(file="covariate-2-categorical variables for 35 species-withAviturus.csv",head=TRUE,sep=",")
+view(categorical.vomer)
+categorical.vomer.1<-as.matrix(categorical.vomer[,c(2:3)])
+rownames(categorical.vomer.1)<-categorical.vomer$Taxa
+view(categorical.vomer.1)
+
+VTRposition<-ace(x=categorical.vomer.1[,1], phy = phy.35species,type = "discrete",)
+write.table(VTRposition$lik.anc,file = "covariate-VTRpositionwithAviturus.csv",sep=",")
+
+VTRarrangement<-ace(x=categorical.vomer.1[,2], phy = phy.35species,type = "discrete",)
+write.table(VTRarrangement$lik.anc,file = "covariate-VTRarrangementwithAviturus.csv",sep=",")
+
+
+### 9-3 regression between each of the five numerical variables and Log(CS)in 71 specimens including Aviturus, 
+###boxplots and Mann Whitney U test (Wilcoxon signed-rank test)---related to Figure 3
+
+### Parasphenoid/palate length ratio(Ps.ratio)~Csize regression and boxplot for Ps.ratio and ecological preference
+covariate.for.boxplot<-read.csv(file="Covariate_Csize_regression.csv",head=TRUE,sep=",")
+view(covariate.for.boxplot)
+PS_Csize<-procD.lm(covariate.for.boxplot$ps.ratio~covariate.for.boxplot$Log.Centroid.Size, iter = 999)
+PS_Csize$aov.table
+PS_Csize$residuals
+boxplot(PS_Csize$residuals~covariate.for.boxplot$ecology,col=c("red","steelblue1","green4"),cex=1, pch=20)
+pairwise.wilcox.test(PS_Csize$residuals, covariate.for.boxplot$ecology, p.adjust.method = "bonf")
+
+### vomer/palate length ratio(Vomer.ratio)~Csize regression and boxplot for Vomer.ratio and ecological preference
+Vomer_Csize<-procD.lm(covariate.for.boxplot$vomer.ratio~covariate.for.boxplot$Log.Centroid.Size, iter = 999)
+Vomer_Csize$aov.table
+Vomer_Csize$residuals
+boxplot(Vomer_Csize$residuals~covariate.for.boxplot$ecology,col=c("red","steelblue1","green4"),cex=1, pch=20)
+pairwise.wilcox.test(Vomer_Csize$residuals, covariate.for.boxplot$ecology, p.adjust.method = "bonf")
+
+### Outer/inner branch of the vomerine tooth row length ratio(OI.ratio)~Csize regression and boxplot for OI.ratio and ecological preference
+OIRatio_Csize<-procD.lm(covariate.for.boxplot$OI.ratio ~covariate.for.boxplot$Log.Centroid.Size, iter = 999)
+OIRatio_Csize$aov.table
+OIRatio_Csize$residuals
+boxplot(OIRatio_Csize$residuals~covariate.for.boxplot$ecology,col=c("red","steelblue1","green4"),cex=1, pch=20)
+pairwise.wilcox.test(OIRatio_Csize$residuals, covariate.for.boxplot$ecology, p.adjust.method = "bonf")
+
+### Vomerine tooth row/vomer width ratio(VTR.W.ratio)~Csize regression and boxplot for VTR.W.ratio and ecological preference
+VTRWRatio_Csize<-procD.lm(covariate.for.boxplot$VTR.W.ratio ~covariate.for.boxplot$Log.Centroid.Size, iter = 999)
+VTRWRatio_Csize$aov.table
+VTRWRatio_Csize$residuals
+boxplot(VTRWRatio_Csize$residuals~covariate.for.boxplot$ecology,col=c("red","steelblue1","green4"),cex=1, pch=20)
+pairwise.wilcox.test(VTRWRatio_Csize$residuals, covariate.for.boxplot$ecology, p.adjust.method = "bonf")
+
+### Teeth number ~ Csize regression and boxplot for Teeth number and ecological preference
+Teeth_Csize<-procD.lm(covariate.for.boxplot$Teeth.NO. ~covariate.for.boxplot$Log.Centroid.Size, iter = 999)
+Teeth_Csize$aov.table
+Teeth_Csize$residuals
+boxplot(Teeth_Csize$residuals~covariate.for.boxplot$ecology,col=c("red","steelblue1","green4"),cex=1, pch=20)
+pairwise.wilcox.test(Teeth_Csize$residuals, covariate.for.boxplot$ecology, p.adjust.method = "bonf")
